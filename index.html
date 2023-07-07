@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="icon" href="https://www.flaticon.com/free-icons/dating-app-android" >
+  <title>BuzzChat</title>
+
+	<style>
+        .message {
+  width: 60%;
+  color: black;
+  border-radius: 10px;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.message-sender {
+  background-color: #dde1e6;
+  text-align: right;
+  align-self: flex-end;
+}
+
+.message-receiver {
+  background-color: #FF2171;
+  text-align: left;
+  color: white;
+}
+
+
+        body{
+            margin: 0px;
+            padding: 0px;
+            background-image: linear-gradient(rgb(255,255,255),#FCAEAE);
+            height: 704px;
+    height: 704px;
+        }
+		#chat-container {
+			display: flex;
+			flex-direction: column;
+            
+			align-items: center;
+
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
+
+    #message-area {
+  margin: auto;
+  background-color:#FF8989 ;
+  max-width: 955px;
+  height: 60vh;
+  margin-bottom: 23px;
+  flex-grow: 1;
+  width: 100%;
+  overflow-y: auto;
+  display: flex; 
+  flex-direction: column; 
+}
+
+
+        .form{
+            margin: auto;
+            
+            max-width: 955px;
+            
+            margin-bottom: 23px;
+			flex-grow: 1;
+			width: 100%;
+			overflow-y: auto;
+		}
+
+        #form{
+        display: block;
+        margin: auto;
+        text-align: center;
+        max-width: 985px;
+        width: 100%;
+        padding: 10px;
+
+        }
+        #message{
+            width: 50%;
+    border: 2px solid black;
+    border-radius: 6px;
+    height: 34px;   
+        }
+        .message{
+            
+            width: 50%;
+    border: 2px solid black;
+    border-radius: 6px;
+    height: 34px;   
+        
+        }
+
+        #myname{
+            width: 30%;
+    border: 2px solid black;
+    border-radius: 6px;
+    height: 34px;  
+        }
+        .btn{
+    cursor: pointer;
+    border: 2px solid black;
+    border-radius: 6px;
+    height: 34px;
+}
+
+
+	</style>
+</head>
+
+<body>
+	<div id="chat-container">
+		<h1 class="font-bold text-green-500 text-3xl text-center mt-5">
+			BuzzChat
+		</h1>
+
+		<div>
+			<h2 class="font-semibold text-xl text-center mt-5" id="logo">
+				Chat App 
+			</h2>
+		</div>
+
+		<div id="message-area">
+
+        </div>
+    <div class="form">
+		<form id="form">
+			<input type="text" placeholder="Name" id="myname">
+			<input type="text" placeholder="Message" id="message">
+			<button type="submit" class="btn">Send</button>
+		</form>
+	</div>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		let socket = io();
+
+		let form = document.getElementById('form');
+		let myname = document.getElementById('myname');
+		let message = document.getElementById('message');
+		let messageArea = document.getElementById("message-area");
+
+		form.addEventListener("submit", (e) => {
+			e.preventDefault();
+
+			if (message.value) {
+				socket.emit('send name', myname.value);
+				socket.emit('send message', message.value);
+				message.value = "";
+			}
+		});
+
+        socket.on('send name', (username, senderId) => {
+  let name = document.createElement('p');
+  name.textContent = username + ':';
+  name.classList.add('message');
+  if (senderId === socket.id) {
+    name.classList.add('message-sender');
+  } else {
+    name.classList.add('message-receiver');
+  }
+  messageArea.appendChild(name);
+});
+
+socket.on('send message', (chat, senderId) => {
+  let chatContent = document.createElement('p');
+  chatContent.textContent = chat;
+  chatContent.classList.add('message');
+  if (senderId === socket.id) {
+    chatContent.classList.add('message-sender');
+  } else {
+    chatContent.classList.add('message-receiver');
+  }
+  messageArea.appendChild(chatContent);
+  messageArea.scrollTop = messageArea.scrollHeight; 
+});
+
+
+	</script>
+</body>
+</html

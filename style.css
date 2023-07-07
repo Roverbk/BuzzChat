@@ -1,0 +1,43 @@
+
+body {
+margin: 0;
+padding: 0;
+}
+#chat-container {
+display: flex;
+flex-direction: column;
+align-items: center;
+height: 100vh;
+background-image:url(backgroud2.webp);
+background-size: cover;
+
+}
+#form{
+margin-bottom: 20px;
+}
+#message-area {
+flex-grow: 1;
+width: 100%;
+overflow-y: auto;
+padding: -1px;
+}
+
+#chat-container h1,
+#chat-container h2 {
+color: white;
+}
+.left{
+    float: left;
+    clear: both;
+    width: 50%;
+    background-color: bisque;
+    padding: 4px;
+}
+
+.right{
+    float: right;
+    clear: both;
+    width: 50%;
+    background-color: bisque;
+    padding: 4px;
+}
